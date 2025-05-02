@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Spree
   class SalePrice < ActiveRecord::Base
     # The following code enables soft-deletion. In Solidus v2.11+ there is a mixin

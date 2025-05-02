@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module SolidusSalePrices
   module Spree
     module ProductDecorator
-        def self.prepended(base)
+      def self.prepended(base)
         base.has_many :sale_prices, through: :prices
       end
 

@@ -11,11 +11,7 @@ module SolidusSalePrices
     end
 
     def self.price_search(variant, options)
-      variant.currently_valid_prices.detect do |price|
-        (price.country_iso == options.desired_attributes[:country_iso] ||
-         price.country_iso.nil?
-        ) && price.currency == options.desired_attributes[:currency]
-      end
+      variant.price_for_options(options)
     end
   end
 end

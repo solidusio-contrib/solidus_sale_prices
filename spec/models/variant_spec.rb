@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Spree::Variant do
   let(:variant) { create(:multi_price_variant) }
+
   it 'can put a variant on a standard sale' do
     expect(variant.on_sale?).to be false
 
@@ -23,7 +24,7 @@ describe Spree::Variant do
 
   it 'changes the price for each specific currency' do
     variant.prices.each do |p|
-      variant.put_on_sale 10.95, { currencies: [ p.currency ] }
+      variant.put_on_sale 10.95, { currencies: [p.currency] }
 
       expect(SolidusSalePrices::PriceMethod.price_for_options(variant, p.currency).price).to eq BigDecimal(10.95, 4)
       expect(variant.original_price_in(p.currency).price).to eql BigDecimal(19.99, 4)
@@ -36,7 +37,7 @@ describe Spree::Variant do
     variant.put_on_sale(10.95, {
       currencies: some_prices.map(&:currency)
       # TODO: does not work yet, because sale_prices take the calculator instance away from each other
-      #calculator_type: Spree::Calculator::PercentOffSalePriceCalculator.new
+      # calculator_type: Spree::Calculator::PercentOffSalePriceCalculator.new
     })
 
     some_prices.each do |p|
@@ -49,9 +50,7 @@ describe Spree::Variant do
     variant.put_on_sale(10.95)
     variant.prices.each do |p|
       p.original_price = 12.90
-    end
 
-    variant.prices.each do |p|
       expect(p.on_sale?).to be true
       expect(p.price).to eq BigDecimal(10.95, 4)
       expect(p.sale_price).to eq BigDecimal(10.95, 4)
@@ -63,9 +62,7 @@ describe Spree::Variant do
     variant.put_on_sale(10.95)
     variant.prices.each do |p|
       p.original_price = 9.90
-    end
 
-    variant.prices.each do |p|
       expect(p.on_sale?).to be false
       expect(p.price).to eq BigDecimal(9.90, 4)
       expect(p.sale_price).to eq nil
@@ -74,8 +71,7 @@ describe Spree::Variant do
   end
 
   context 'with a valid sale' do
-
-    before(:each) do
+    before do
       variant.put_on_sale(10.95) # sale is started and enabled at this point for all currencies
     end
 
@@ -116,8 +112,6 @@ describe Spree::Variant do
 
       variant.start_sale(1.second.ago, price_groups.first.map(&:currency))
 
-
-
       variant.prices.each do |p|
         expect(variant.on_sale_in?(p.currency)).to be true
       end
@@ -141,9 +135,14 @@ describe Spree::Variant do
     end
 
     it 'destroys all sale prices when it is destroyed' do
-      expect { variant.discard }
+      expect { variant.destroy }
         .to change { Spree::SalePrice.all.size }
         .from(3).to(0)
+    end
+
+    it 'keeps all sale prices when it is discarded' do
+      expect { variant.discard }
+        .not_to(change { Spree::SalePrice.all.size })
     end
   end
 end

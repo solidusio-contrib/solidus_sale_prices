@@ -10,7 +10,7 @@ describe Spree::Price do
     let(:sale_price_value) { 15.99 }
 
     it 'builds a new sale' do
-      is_expected.to have_attributes({
+      expect(subject).to have_attributes({
         value: BigDecimal(sale_price_value, 4),
         start_at: be_within(1.second).of(Time.now),
         end_at: nil,

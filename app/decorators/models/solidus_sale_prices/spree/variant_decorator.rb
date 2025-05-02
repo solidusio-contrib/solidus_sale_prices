@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SolidusSalePrices
   module Spree
     module VariantDecorator
@@ -6,10 +8,10 @@ module SolidusSalePrices
       end
 
       delegate :on_sale?,
-               :sale_price, :sale_price=,
-               :original_price, :original_price=,
-               :discount_percent, :discount_percent=,
-               to: :default_price
+        :sale_price, :sale_price=,
+        :original_price, :original_price=,
+        :discount_percent, :discount_percent=,
+        to: :default_price
 
       def put_on_sale(value, params = {})
         currencies = params.fetch(:currencies, [])

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Spree
   module Admin
     class SalePricesController < BaseController
@@ -41,7 +43,8 @@ module Spree
       end
 
       def selected_prices
-        Spree::Price.find(params[:price_ids].split)
+        price_ids = params[:price_ids].map(&:to_i)
+        Spree::Price.where(id: price_ids)
       end
 
       def sale_price_params

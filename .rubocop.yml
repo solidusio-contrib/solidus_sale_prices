@@ -1,2 +1,19 @@
+inherit_from: .rubocop_todo.yml
+
 require:
   - solidus_dev_support/rubocop
+
+AllCops:
+  NewCops: disable
+
+FactoryBot/AssociationStyle:
+  Enabled: false
+
+Capybara/RSpec/PredicateMatcher:
+    Enabled: false
+
+Capybara/ClickLinkOrButtonStyle:
+  Enabled: false
+
+FactoryBot/ExcessiveCreateList:
+  Enabled: false

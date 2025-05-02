@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Spree
   class Calculator::PercentOffSalePriceCalculator < Spree::Calculator
     # TODO validate that the sale price is between 0 and 1
